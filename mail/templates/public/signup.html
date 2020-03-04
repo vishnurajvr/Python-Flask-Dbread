@@ -1,0 +1,36 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}SignUp{% endblock title %}
+
+{% block navbar %}
+{{ nav.mynavbar.render() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col">
+		{% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    <div class="alert alert-{{ messages.0.0 }}" role="alert">
+                      {% for category, message in messages %}
+                        {{ message }} </br>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                {% endwith %}
+                
+			<h1>SignUp </h1><hr>
+			<form method="post">
+	 			{{ forms.csrf_token }}
+	 			{{ wtf.form_field(forms.username) }}
+	 			{{ wtf.form_field(forms.password) }}
+	 			{{ wtf.form_field(forms.email) }}
+                		{{ wtf.form_field(forms.sign, class="btn btn-primary active") }}
+ 			</form>
+		</div>
+	</div>
+</div>
+	
+{% endblock content %}		

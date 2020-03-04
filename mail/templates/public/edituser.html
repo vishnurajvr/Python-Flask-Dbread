@@ -1,0 +1,49 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}
+{% if edit_user %}
+Update
+{% else  %}
+Delete
+{% endif %}
+
+{% endblock title %}
+
+{% block navbar %}
+{{ nav.mynavbar.render() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col">
+		{% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    <div class="alert alert-{{ messages.0.0 }}" role="alert">
+                      {% for category, message in messages %}
+                        {{ message }} </br>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                {% endwith %}
+                
+		<h1>DB-Update </h1><hr>
+		<form method="post" class="control-group">
+                {{ form.hidden_tag() }}
+                {{ wtf.form_field(form.user,value=users.username | default(user,true)) }}
+                {{ wtf.form_field(form.pwd,value=users.password | default(user,true),type='password') }}
+                {{ wtf.form_field(form.mail,value=users.mail | default(user,true)) }}
+                {{ wtf.form_field(form.Id,value=users.id | default(user,true)) }}
+                {% if edit_user %}
+                {{ wtf.form_field(form.update ,class="btn btn-primary active") }}
+                {% else  %}
+                {{ wtf.form_field(form.delete ,class="btn btn-danger active") }}
+                {% endif %}
+		</form>
+            	<a href="/db/all"><input type="submit" value="Back " class="text-md-left btn btn-info"></a>
+		</div>
+	</div>
+</div>
+	
+{% endblock content %}		
